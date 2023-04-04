@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.Manifest;
@@ -18,6 +19,8 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
+import android.os.Build.VERSION;
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -80,27 +83,62 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(new MusicAdapter(SongList , getApplicationContext()));
     }
     //permission request 2 ways one clear and one if denied then text shown
+    int a = VERSION.SDK_INT;
+
+
     void requestPermission()
     {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this ,Manifest.permission.READ_MEDIA_AUDIO))
+        if(a>32)
         {
-            Toast.makeText(this, "Give Permission to App From Settings", Toast.LENGTH_SHORT).show();
-        }
+            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this ,Manifest.permission.READ_MEDIA_AUDIO))
+            {
+                Toast.makeText(this, "Give Permission to App From Settings", Toast.LENGTH_SHORT).show();
+            }
 
+            else
+            {
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_MEDIA_AUDIO}, 123);
+
+            }
+        }
         else
         {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_MEDIA_AUDIO}, 123);
+            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this ,Manifest.permission.READ_EXTERNAL_STORAGE))
+            {
+                Toast.makeText(this, "Give Permission to App From Settings", Toast.LENGTH_SHORT).show();
+            }
+
+            else
+            {
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 123);
+
+            }
 
         }
     }
+
+
     boolean checkPermission()
     {
-        int result = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_MEDIA_AUDIO);
-        if(result== PackageManager.PERMISSION_GRANTED)
+        if(a>32)
         {
-            return true;
+            int result = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_MEDIA_AUDIO);
+            if(result== PackageManager.PERMISSION_GRANTED)
+            {
+                return true;
+            }
+            else
+                return false;
         }
-        else
-            return false;
+        else {
+            int result = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE);
+            if(result== PackageManager.PERMISSION_GRANTED)
+            {
+                return true;
+            }
+            else
+                return false;
+        }
+
     }
 }
