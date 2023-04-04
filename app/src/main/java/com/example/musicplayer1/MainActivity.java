@@ -82,20 +82,20 @@ public class MainActivity extends AppCompatActivity {
     //permission request 2 ways one clear and one if denied then text shown
     void requestPermission()
     {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this ,Manifest.permission.READ_EXTERNAL_STORAGE))
+        if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this ,Manifest.permission.READ_MEDIA_AUDIO))
         {
             Toast.makeText(this, "Give Permission to App From Settings", Toast.LENGTH_SHORT).show();
         }
 
         else
         {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 123);
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_MEDIA_AUDIO}, 123);
 
         }
     }
     boolean checkPermission()
     {
-        int result = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        int result = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_MEDIA_AUDIO);
         if(result== PackageManager.PERMISSION_GRANTED)
         {
             return true;
